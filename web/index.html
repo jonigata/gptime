@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="gptime-token" content="__LOCAL_TOKEN__"><title>GPTIME</title><link rel="stylesheet" href="/style.css"><script src="/app.js" defer></script></head>
+<body><main><header><span class="badge">かな → 漢字</span><h1>GPTIME<span>ことばを、すばやく。</span></h1><p>MyIME × GPT-6 Luna</p></header>
+<section><h2>ChatGPTに接続</h2><p id="account">接続を確認しています…</p><div class="actions"><button id="login">Continue with ChatGPT</button><button id="logout" class="secondary" hidden>ログアウト</button></div>
+<p class="note">対応するChatGPTプランで利用します。利用可否・上限はアカウントによって異なります。</p></section>
+<section><h2>変換設定</h2><label class="toggle"><input type="checkbox" id="enabled"> Lunaによるクラウド変換を有効にする</label>
+<p class="note">有効にすると、MyIMEの変換対象の読みをOpenAIに送信します。シークレットモードでは送信しません。入力履歴はファイルに保存しません。</p>
+<div class="details"><span>GPT-6 Luna</span><span>推論なし</span><span>候補1件</span><span>待ち時間上限 1.2秒</span></div>
+<p class="note">実際の応答時間は通信状況によって変わります。MyIME連携には同梱の変更を適用したビルドが必要です。</p></section>
+<section><h2>変換を試す</h2><form id="convert"><label for="reading">読み</label><input id="reading" placeholder="きょうはいいてんきですね" maxlength="128" autocomplete="off"><button>変換</button></form>
+<div id="result" aria-live="polite">変換候補がここに表示されます。</div><small id="latency"></small></section>
+<p id="message" role="status"></p><footer>GPTIME · ローカルで動作するMyIME用変換ブリッジ</footer></main></body></html>

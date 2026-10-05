@@ -1,0 +1,11 @@
+node_modules/
+upstream/
+.gptime/
+*.log
+.agents/
+.codex/
+.aws/
+.env
+.env.*
+account.json
+bridge.json

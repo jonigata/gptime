@@ -1,0 +1,23 @@
+import assert from 'node:assert/strict';
+
+const base = 'http://127.0.0.1:18765';
+const page = await fetch(base);
+assert.equal(page.status, 200);
+assert.ok(page.headers.get('content-security-policy').includes("frame-ancestors 'none'"));
+const html = await page.text();
+const token = html.match(/name="gptime-token" content="([a-f0-9]{64})"/)?.[1];
+assert.ok(token);
+assert.equal((await fetch(`${base}/status`)).status, 401);
+const headers = { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' };
+const status = await fetch(`${base}/status`, { headers }).then(r => r.json());
+assert.equal(status.signedIn, false); assert.equal(status.enabled, false);
+assert.equal((await fetch(`${base}/convert`, { method: 'POST', headers, body: JSON.stringify({ reading: 'かんじ' }) })).status, 503);
+assert.equal((await fetch(`${base}/settings`, { method: 'POST', headers: { ...headers, Origin: 'https://example.com' }, body: '{"enabled":true}' })).status, 403);
+assert.equal((await fetch(`${base}/settings`, { method: 'POST', headers, body: '{"enabled":true}' })).status, 400);
+assert.equal((await fetch(`${base}/auth/callback?state=bad&code=bad`)).status, 400);
+const login = await fetch(`${base}/login`, { method: 'POST', headers, body: '{}' }).then(r => r.json());
+const url = new URL(login.url);
+assert.equal(url.origin, 'https://auth.openai.com');
+assert.equal(url.searchParams.get('client_id'), 'dynamic_agent_client');
+assert.equal(url.searchParams.get('redirect_uri'), `${base}/auth/callback`);
+console.log('HTTP smoke passed: UI, authorization, origin checks, disabled conversion, callback rejection, OAuth URL. No external inference performed.');

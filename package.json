@@ -1,0 +1,9 @@
+{
+  "name": "gptime",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {"node": ">=22"},
+  "scripts": {"start": "node src/server.mjs", "test": "node --test test/*.test.mjs", "patch-myime": "node scripts/patch-myime.mjs"},
+  "dependencies": {"jose": "^6.1.0"}
+}
